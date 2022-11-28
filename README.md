@@ -48,8 +48,8 @@
 2. 按鈕[Search Data]若搜尋發現短缺的文件，會在該對應的的儲存格出現紅底(POA,NCC,PasteID)三個不同的文件短缺提示
 3. 自動產生檔案顯示(Visible) 為False，製作文件相對費時，提供使用者UI介面查看Loading的狀態，避免使用者誤判為系統當機，造成製作檔案中斷及錯誤。
 * PasteID 等待畫面
-![image](https://user-images.githubusercontent.com/37874182/204202214-13751cd4-5c56-42b0-a2c0-5de7e3b5878e.png)
+* ![image](https://user-images.githubusercontent.com/37874182/204202214-13751cd4-5c56-42b0-a2c0-5de7e3b5878e.png)
 * NCC 等待畫面
-![image](https://user-images.githubusercontent.com/37874182/204202286-3a912fa1-b318-4f50-9080-ad2b1422c66a.png)
+* ![image](https://user-images.githubusercontent.com/37874182/204202286-3a912fa1-b318-4f50-9080-ad2b1422c66a.png)
 * 個案委任書 等待畫面
-![image](https://user-images.githubusercontent.com/37874182/204202360-bb28d647-0c27-493a-990c-180fd6245b6d.png)
+* ![image](https://user-images.githubusercontent.com/37874182/204202360-bb28d647-0c27-493a-990c-180fd6245b6d.png)
