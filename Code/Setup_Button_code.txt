@@ -1,0 +1,32 @@
+Sub MakeFile()
+    Dim FSO As Object
+    Const TargetFile As String = "D:\*"
+
+
+    Set FSO = CreateObject("scripting.filesystemobject")
+
+    MyPath = "D:\"
+
+    If FSO.FolderExists(MyPath) = False Then
+        MsgBox "Don't Exist D:\ Drive Not Available", , "Empty D Drive"
+        Exit Sub
+    End If
+
+    
+    If Dir("D:\AutoNCC", vbDirectory) = "" Then
+        MkDir "D:\AutoNCC"
+    End If
+    If Dir("D:\AutoPOA", vbDirectory) = "" Then
+        MkDir "D:\AutoPOA"
+    End If
+    If Dir("D:\AutoPasteID", vbDirectory) = "" Then
+        MkDir "D:\AutoPasteID"
+    End If
+    If Dir("D:\Document", vbDirectory) = "" Then
+        MkDir "D:\Document"
+    End If
+    MsgBox "Setting Complete,You Are Ready To Start Using This Program", , "Complete"
+
+    
+End Sub
+

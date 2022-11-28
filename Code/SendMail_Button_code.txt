@@ -1,0 +1,19 @@
+Option Explicit
+
+Sub SendMail()
+
+Dim msgyn As String
+
+If Cells(2, 1) = "" Then
+	MsgBox "Please Entry The Data", , "Empty Data"
+Else
+	msgyn = MsgBox("               Ready To Send Email?", vbYesNo, "Are You Ready?")
+
+	If msgyn = vbYes Then
+		home.Show
+	End If
+	Exit Sub
+
+End If
+
+End Sub

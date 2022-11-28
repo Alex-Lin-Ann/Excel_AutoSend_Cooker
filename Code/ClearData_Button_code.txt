@@ -1,0 +1,42 @@
+Sub Clear_All_Files_And_SubFolders_In_Folder()
+'Delete all files and subfolders
+'Be sure that no file is open in the folder
+    Dim FSO As Object
+    Dim MyPath As String
+    Dim MyPath1 As String
+    Dim MyPath2 As String
+    
+
+    Set FSO = CreateObject("scripting.filesystemobject")
+
+    MyPath = "D:\AutoPOA\"  '<< Change
+    MyPath1 = "D:\AutoNCC\"
+    MyPath2 = "D:\AutoPasteID\"
+
+    If Right(MyPath, 1) = "\" Then
+        MyPath = Left(MyPath, Len(MyPath) - 1)
+    End If
+
+    If FSO.FolderExists(MyPath) = False Then
+        MsgBox MyPath & " doesn't exist", , "Empty Folder"
+        Exit Sub
+    End If
+
+    On Error Resume Next
+    'Delete files
+    FSO.deletefile MyPath & "\*.*", True
+    'Delete subfolders
+    FSO.deletefolder MyPath & "\*.*", True
+    FSO.deletefile MyPath1 & "\*.*", True
+    'Delete subfolders
+    FSO.deletefolder MyPath1 & "\*.*", True
+    FSO.deletefile MyPath2 & "\*.*", True
+    'Delete subfolders
+    FSO.deletefolder MyPath2 & "\*.*", True
+
+    On Error GoTo 0
+    
+    MsgBox "Delete All POA", , "OK"
+    
+
+End Sub

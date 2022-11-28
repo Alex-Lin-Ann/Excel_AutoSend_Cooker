@@ -1,0 +1,12 @@
+Option Explicit
+Sub ProducePOA()
+
+Dim msgyn As String
+
+If Cells(2, 1) = "" Then
+    MsgBox "Please Entry The Data", , "Empty Data"
+Else
+    PleaseWaitPOA.Show
+End If
+
+End Sub

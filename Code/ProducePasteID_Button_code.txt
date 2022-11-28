@@ -1,0 +1,15 @@
+Sub ProducePasteID()
+
+If Cells(2, 1) = "" Then
+    MsgBox "Please Entry The Data", , "Empty Data"
+Else
+    PleaseWaitID.Show
+End If
+
+End Sub
+    
+    
+ 
+    
+
+

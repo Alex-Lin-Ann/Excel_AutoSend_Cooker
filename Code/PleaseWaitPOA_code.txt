@@ -1,0 +1,62 @@
+Private Sub UserForm_Activate()
+Dim wordapp As Word.Application
+Dim worddoc As Word.Document
+Dim o As Variant
+Dim wkSheet As Worksheet
+Dim x As Integer
+
+PleaseWaitPOA.Label1.BackStyle = 0
+PleaseWaitPOA.Label1.Font.Size = 22
+PleaseWaitPOA.Label1.ForeColor = RGB(206, 252, 255)
+PleaseWaitPOA.PB.ForeColor = RGB(18, 240, 254)
+PB.Width = 0
+
+Sheets("Cooker_Mail").Activate
+
+For x = 2 To Range("A1").End(xlDown).Row
+    
+    Set wordapp = New Word.Application
+        wordapp.visible = False
+        Set worddoc = wordapp.Documents.Open("D:\CookerMail\Data\個案委任書") '路徑
+        worddoc.Application.Selection.Find.Execute "口" '進口報單號碼
+        wordapp.Selection.MoveRight Unit:=wdCharacter, Count:=4
+        worddoc.Application.Selection.Find.Execute "碼" '進口提單號碼
+        wordapp.Selection.MoveRight Unit:=wdCharacter, Count:=5
+        wordapp.Selection.TypeText Cells(x, 1)
+        worddoc.Application.Selection.Find.Execute "國"
+        worddoc.Application.Selection.Find.Execute "國"
+        wordapp.Selection.MoveRight Unit:=wdCharacter, Count:=3
+        wordapp.Selection.TypeText Year(Range("K3")) - 1911
+        worddoc.Application.Selection.Find.Execute "年"
+        wordapp.Selection.MoveRight Unit:=wdCharacter, Count:=3
+        wordapp.Selection.TypeText Month(Range("K3"))
+        worddoc.Application.Selection.Find.Execute "月"
+        wordapp.Selection.MoveRight Unit:=wdCharacter, Count:=3
+        wordapp.Selection.TypeText Day(Range("K3"))
+    
+        worddoc.SaveAs "D:\AutoPOA\個案委任書" & Cells(x, 1) & ".doc"  '路徑
+        wordapp.Quit
+
+    Set worddoc = Nothing
+    Set wordapp = Nothing
+
+        PleaseWaitPOA.PB.Width = (x - 1) * 366 / (Range("A1").End(xlDown).Row - 1)
+        PleaseWaitPOA.Label1.Caption = Int((x - 1) / (Range("A1").End(xlDown).Row - 1) * 100) & "%"""
+        PleaseWaitPOA.Repaint
+            
+        PleaseWaitPOA.Caption = "Processing..........." & Int((x - 1) / (Range("A1").End(xlDown).Row - 1) * 100) & "%"
+    Next
+        PleaseWaitPOA.Caption = "Completed"
+    
+        
+        newHour = Hour(Now())
+        newMinute = Minute(Now())
+        newSecond = Second(Now()) + 1
+        waittime = TimeSerial(newHour, newMinute, newSecond)
+        Application.Wait waittime
+        PleaseWaitPOA.Hide
+        MsgBox "Producing POA OK", , "OK"
+    Set PleaseWaitPOA = Nothing
+   
+End Sub
+

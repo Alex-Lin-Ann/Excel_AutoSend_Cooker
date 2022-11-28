@@ -1,0 +1,93 @@
+Private Sub UserForm_Activate()
+Dim wordapp As Word.Application
+Dim worddoc As Word.Document
+Dim o As Variant
+Dim wkSheet As Worksheet
+Dim x As Integer
+
+PleaseWaitNCC.Label1.BackStyle = 0
+PleaseWaitNCC.Label1.Font.Size = 22
+PleaseWaitNCC.Label1.ForeColor = RGB(105, 186, 187)
+PB.BackColor = RGB(12, 12, 12)
+PB.ForeColor = RGB(105, 186, 187)
+PB.Width = 0
+
+Sheets("Cooker_Mail").Activate
+
+For x = 2 To Range("A1").End(xlDown).Row
+    Set wordapp = New Word.Application
+        wordapp.visible = False
+        
+        '在背景打開word檔案，並加入提單號碼
+        If Cells(x, 3) = True Then
+            Set worddoc = wordapp.Documents.Open("D:\CookerMail\Data\NCC自用切結書-WIFI COOKER(PCW-120US-K1)")
+            worddoc.Application.Selection.Find.Execute "0.5W"
+            wordapp.Selection.MoveRight Unit:=wdCharacter, Count:=2
+            
+                If Cells(x, 4) = "" Then
+                    wordapp.Selection.TypeText 1
+                Else
+                    wordapp.Selection.TypeText Cells(x, 4)
+                End If
+                    
+        ElseIf Cells(x, 3) = False Then
+            Set worddoc = wordapp.Documents.Open("D:\CookerMail\Data\NCC自用切結書-WIFI COOKER(PCB-120US-K1)")
+                worddoc.Application.Selection.Find.Execute "0.5W"
+                wordapp.Selection.MoveRight Unit:=wdCharacter, Count:=2
+                If Cells(x, 4) = "" Then
+                    wordapp.Selection.TypeText 1
+                Else
+                    wordapp.Selection.TypeText Cells(x, 4)
+                    
+                End If
+
+        Else
+            Set worddoc = wordapp.Documents.Open("D:\CookerMail\Data\NCC自用切結書-WIFI COOKER(PCB & PCW)")
+
+            End If
+
+            worddoc.Application.Selection.Find.Execute "國"
+            worddoc.Application.Selection.Find.Execute "國"
+            wordapp.Selection.MoveRight Unit:=wdCharacter, Count:=1
+            wordapp.Selection.TypeText Year(Range("K3")) - 1911
+                
+            worddoc.Application.Selection.Find.Execute "年"
+            wordapp.Selection.MoveRight Unit:=wdCharacter, Count:=1
+            wordapp.Selection.TypeText Month(Range("K3"))
+                
+            worddoc.Application.Selection.Find.Execute "月"
+            wordapp.Selection.MoveRight Unit:=wdCharacter, Count:=1
+            wordapp.Selection.TypeText Day(Range("K3"))
+                
+            worddoc.Application.Selection.Find.Execute "碼"
+            wordapp.Selection.MoveRight Unit:=wdCharacter, Count:=2
+            wordapp.Selection.TypeText Cells(x, 1)
+               
+            worddoc.SaveAs "D:\AutoNCC\NCC_" & Cells(x, 1) & ".doc"  '路徑
+            wordapp.Quit
+             
+    Set worddoc = Nothing
+    Set wordapp = Nothing
+            
+            '進度條及數字%的呈現
+            PleaseWaitNCC.PB.Width = (x - 1) * 366 / (Range("A1").End(xlDown).Row - 1)
+            PleaseWaitNCC.Label1.Caption = Int((x - 1) / (Range("A1").End(xlDown).Row - 1) * 100) & "%"
+            PleaseWaitNCC.Repaint
+            
+            PleaseWaitNCC.Caption = "Processing..........." & Int((x - 1) / (Range("A1").End(xlDown).Row - 1) * 100) & "%"
+    
+    Next
+PleaseWaitNCC.Caption = "Completed"
+    
+newHour = Hour(Now())
+newMinute = Minute(Now())
+newSecond = Second(Now()) + 1
+waittime = TimeSerial(newHour, newMinute, newSecond)
+Application.Wait waittime
+PleaseWaitNCC.Hide
+MsgBox "Producing NCC OK", , "OK"
+
+Set PleaseWaitNCC = Nothing
+
+
+End Sub

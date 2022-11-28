@@ -1,0 +1,15 @@
+Option Explicit
+
+Sub ProduceNCC()
+
+    If Cells(2, 1) = "" Then
+    MsgBox "Please Entry The Data", , "Empty Data"
+    
+    Else
+    PleaseWaitNCC.Show
+    
+    End If
+    
+    
+End Sub
+    

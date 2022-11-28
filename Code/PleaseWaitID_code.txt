@@ -1,0 +1,48 @@
+Private Sub UserForm_Activate()
+Dim wordapp As Word.Application
+Dim worddoc As Word.Document
+Dim o As Variant
+Dim wkSheet As Worksheet
+Dim x As Integer
+    
+PB.Width = 0
+Label1.BackColor = RGB(29, 29, 29)
+PB.BackColor = RGB(29, 29, 29)
+    
+    
+Sheets("Cooker_Mail").Activate
+    
+For x = 2 To Range("A1").End(xlDown).Row
+    '在背景打開word檔案，並搜尋到"碼"這個字，在後方加入該提單號碼
+    Set wordapp = New Word.Application
+    wordapp.visible = False
+    Set worddoc = wordapp.Documents.Open("D:\CookerMail\Data\身分證正反面黏貼處") '路徑
+    worddoc.Application.Selection.Find.Execute "碼" '進口提單號碼
+    wordapp.Selection.MoveRight Unit:=wdCharacter, Count:=2
+    wordapp.Selection.TypeText Cells(x, 1)
+    worddoc.SaveAs "D:\AutoPasteID\身分證正反面黏貼處_" & Cells(x, 1) & ".doc"  '路徑
+    wordapp.Quit
+             
+    Set worddoc = Nothing
+    Set wordapp = Nothing
+    
+    '進度條及數字%的呈現
+    PleaseWaitID.PB.Width = (x - 1) * 366 / (Range("A1").End(xlDown).Row - 1)
+    PleaseWaitID.Label1.Caption = Int((x - 1) / (Range("A1").End(xlDown).Row - 1) * 100) & "%"
+    PleaseWaitID.Repaint
+    PleaseWaitID.Caption = "Loading..........." & Int((x - 1) / (Range("A1").End(xlDown).Row - 1) * 100) & "%"
+    
+    Next
+    
+    PleaseWaitID.Caption = "Completed"
+        newHour = Hour(Now())
+        newMinute = Minute(Now())
+        newSecond = Second(Now()) + 2
+        waittime = TimeSerial(newHour, newMinute, newSecond)
+        Application.Wait waittime
+        PleaseWaitID.Hide
+        MsgBox "Producing 身分證正反面黏貼處 OK", , "OK"
+    Set PleaseWaitID = Nothing
+    
+End Sub
+

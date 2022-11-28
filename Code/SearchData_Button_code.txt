@@ -1,0 +1,85 @@
+Option Explicit
+
+Sub Finddata()
+    Dim E As Boolean '文件
+    Dim F As Boolean 'NCC
+    Dim G As Boolean '個委
+    Dim H As Boolean '身分證
+    Dim i As Boolean 'EZ WAY
+    Dim y As Long
+    Dim FIND1 As Long
+    Dim FIND2 As Long
+    Dim FIND3 As Long
+    Dim FIND4 As Long
+    Dim FIND5 As Long
+    
+    
+If Cells(2, 1) = "" Then
+    MsgBox "Please Entry The Data", , "Empty Data"
+Else
+    
+    y = 2
+    Do While Cells(y, 1) <> ""
+        
+        E = CreateObject("Scripting.FileSystemObject").FileExists("D:\Document\" & Cells(y, 1).Value & ".pdf") 'Document
+        F = CreateObject("Scripting.FileSystemObject").FileExists("D:\AutoNCC\NCC_" & Cells(y, 1).Value & ".doc") 'NCC
+        G = CreateObject("Scripting.FileSystemObject").FileExists("D:\AutoPOA\個案委任書" & Cells(y, 1).Value & ".doc") '個案委任書
+        H = CreateObject("Scripting.FileSystemObject").FileExists("D:\AutoPasteID\身分證正反面黏貼處_" & Cells(y, 1).Value & ".doc") '身分證
+        i = CreateObject("Scripting.FileSystemObject").FileExists("D:\CookerMail\Data\智慧型手機 下載APP委任更方便.pdf") 'EZ WAY
+    
+        FIND1 = E
+        FIND2 = F
+        FIND3 = G
+        FIND4 = H
+        FIND5 = i
+        
+        If F = False Then
+            MsgBox "Not Found   " & Cells(y, 1) & ".pdf   NCC, Make Sure The File Exists", , "Not Found   " & Cells(y, 1) & " NCC"
+            Cells(y, 1).Font.Color = -16776961
+            Cells(y, 5) = "NCC"
+            Cells(y, 5).Interior.Color = RGB(255, 0, 0)
+            Exit Sub
+        End If
+        
+    
+    
+        If G = False Then
+            MsgBox "Not Found 個案委任書, Make Sure The File Exists", , "Not Found 個案委任書"
+            Cells(y, 5) = "個案委任書"
+            Cells(y, 5).Interior.Color = RGB(255, 0, 0)
+            Exit Sub
+        End If
+            If H = False Then
+                MsgBox "Not Found   " & Cells(y, 1) & ".pdf   ID, Make Sure The File Exists", , "Not Found   " & Cells(y, 1) & " ID"
+                Cells(y, 1).Font.Color = -16776961
+                Cells(y, 5) = "ID"
+                Cells(y, 5).Interior.Color = RGB(255, 0, 0)
+                Exit Sub
+            End If
+            If i = False Then
+                MsgBox "Not Found   " & Cells(y, 1) & ".pdf   EZ WAY, Make Sure The File Exists", , "Not Found   " & Cells(y, 1) & "EZ WAY"
+                Cells(y, 1).Font.Color = -16776961
+                Cells(y, 5) = "EZ WAY"
+                Cells(y, 5).Interior.Color = RGB(255, 0, 0)
+                Exit Sub
+            End If
+    
+            Cells(y, 5).Interior.Color = RGB(0, 255, 0)
+            Cells(y, 5) = "OK"
+            
+                If E = False Then
+                    Cells(y, 1).Font.Color = -16776961
+                    Cells(y, 5) = "Document"
+                    Cells(y, 5).Interior.Color = RGB(255, 0, 0)
+            
+                End If
+    y = y + 1
+    
+    Loop
+    
+    
+    MsgBox "All Complete, Please Send The Email", , "Check OK"
+
+End If
+
+End Sub
